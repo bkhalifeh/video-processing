@@ -1,0 +1,46 @@
+[project]
+name = "video-processing"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiofiles>=24.1.0",
+    "alembic>=1.15.2",
+    "asyncpg>=0.30.0",
+    "celery[redis]>=5.5.2",
+    "fastapi[standard]>=0.115.12",
+    "httpx>=0.28.1",
+    "opencv-python-headless>=4.11.0.86",
+    "orjson>=3.10.18",
+    "psycopg2-binary>=2.9.10",
+    "pydantic>=2.11.4",
+    "pydantic-settings>=2.9.1",
+    "python-ulid>=3.0.0",
+    "sqlalchemy[asyncio]>=2.0.40",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+testpaths = "tests"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = [
+    "--cov=app",
+    "--cov-report=html",
+    "--cov-branch",
+    "--log-level=DEBUG",
+    "--show-capture=all",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.26.0",
+    "pytest-cov>=6.1.0",
+    "pytest-html>=4.1.1",
+    "pytest-mock>=3.14.0",
+    "pytest-sqlalchemy-mock>=0.1.7",
+    "pytest-watcher>=0.4.3",
+    "watchdog>=6.0.0",
+]

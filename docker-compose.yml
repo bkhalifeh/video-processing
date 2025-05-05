@@ -1,0 +1,41 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - backend-db
+      - backend-celery
+    networks:
+      - app-network
+    ports:
+      - "8000:80"
+    entrypoint: ["/bin/sh", "entrypoint.sh"]
+
+  backend-celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - backend-db
+      - backend-redis
+    networks:
+      - app-network
+    entrypoint: ["/bin/sh", "celery-entrypoint.sh"]
+
+  backend-db:
+    image: postgres:17.2-alpine3.20
+    environment:
+      POSTGRES_DB: ${DATABASE__NAME}
+      POSTGRES_USER: ${DATABASE__USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE__PASSWORD}
+    networks:
+      - app-network
+  backend-redis:
+    image: redis:7.4.1-alpine3.20
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
